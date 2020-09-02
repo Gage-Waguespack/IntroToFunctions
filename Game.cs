@@ -8,6 +8,11 @@ namespace HelloWorld
     {
         bool _gameOver = false;
         string _playerName = "";
+        int _playerLevel = 1;
+        int _playerHealth = 100;
+        int _playerDamage = 20;
+        int _currentEnemyHlth = 50;
+        int _currentEnemeyDmg = 5;
         void RequestName()
         {
             //if player already has a name, return from function
@@ -40,9 +45,33 @@ namespace HelloWorld
         {
             //Prints player stats to screen
             Console.WriteLine(_playerName);
+            Console.WriteLine(_playerHealth);
+            Console.WriteLine(_playerDamage);
+            Console.WriteLine(_playerLevel);
             Console.WriteLine("Press any key to continue!");
             Console.Write("> ");
             Console.ReadKey();
+        }
+        bool StartBattle(ref int _playerHealth, int _currentEnemy)
+        {
+            char input = ' ';
+            while (_playerHealth > 0 && _currentEnemy > 0)
+            {
+                input = GetInput("Strike", "Guard", "What will you do?");
+                if(input == '1')
+                {
+                    _currentEnemy -= _playerDamage;
+                    Console.WriteLine("You dealt " + _playerDamage + " damage!");
+                }
+                else if(input == '2')
+                {
+                    _playerHealth += 20;
+                    _playerHealth -= _currentEnemeyDmg;
+                    Console.WriteLine("You gaurded for 10 health and took " + _currentEnemeyDmg + " damage!");
+                    Console.ReadKey();
+                }
+            }
+            return _playerHealth <= 0;
         }
 
         void Explore()
@@ -51,7 +80,10 @@ namespace HelloWorld
             input = GetInput("Go left", "Go right" , "You came to a cross road");
             if(input == '1')
             {
-                Console.WriteLine("You decided to go left and a trap is sprung. You become human fertilizer..");
+                Console.WriteLine("You decided to go left and a trap is sprung. YOU FIGHT A GIANT MONSTER?!");
+                _currentEnemeyDmg = 15;
+                _currentEnemyHlth = 200;
+                StartBattle(ref _playerHealth, _currentEnemyHlth);
                 _gameOver = true;
             }
             else if(input == '2')
@@ -103,31 +135,45 @@ namespace HelloWorld
                 Console.WriteLine("Because of this you are rewarded with a GOLDEN STAR?!");
                 Console.WriteLine("Unfortunately the golden star is a sticker and you walk away with nothing but an inflated ego...");
             }
-            void Wyoming()
+        }
+        void Wyoming()
+        {
+            char input = ' ';
+            input = GetInput("Head off to Wyoming", "Stay in town for the night", "You head off and hear rumors of a place called Wyoming and pick up a map and see that its a two mile walk down the main road, Do you take it?");
+            if (input == '1')
             {
-                char input = ' ';
-                input = GetInput("Head off to Wyoming", "Stay in town for the night", "You head off and hear rumors of a place called Wyoming and pick up a map and see that its a two mile walk down the main road, Do you take it?");
-                if(input == '1')
-                {
-                    Console.WriteLine("You head to Wyoming but end up in the town of RavenRock instead, you seem to have passed it up?!");
-                    Console.WriteLine("You turn around to look for this Wyoming but you end up back in GoldenRowe..");
-                    Console.WriteLine("You know you're following the right roads but you never see it...");
-                    Console.WriteLine("You turn back around and end up in RavenRock again and this time you decide to go to the pub to ask people what they know about Wyoming.");
-                    Console.WriteLine("After asking the first person, they tell you that they've heard of the place but they don't know anyone from there or what it looks like.");
-                    Console.WriteLine("You decide to ask another person and this time they say they've never heard of the damn place...");
-                    Console.WriteLine("Now you get fed up and ask one more person and they tell you that they once tried to go there but never made it.. where is this Wyoming?!");
-
-                }
-                if (input == '2')
-                {
-                    Console.WriteLine("You stay the night in a tavern and rest up.");
-                    Console.WriteLine("However you ended up being stabbed in the middle of the night after being mugged.. ");
-                    Console.WriteLine("Sucks to suck! Your fault for staying in the only free tavern in town...");
-                    _gameOver = true;
-                }
+                Console.WriteLine("You head to Wyoming but end up in the town of RavenRock instead, you seem to have passed it up?!");
+                Console.WriteLine("You turn around to look for this Wyoming but you end up back in GoldenRowe..");
+                Console.WriteLine("You know you're following the right roads but you never see it...");
+                Console.WriteLine("You turn back around and end up in RavenRock again and this time you decide to go to the pub to ask people what they know about Wyoming.");
+                Console.WriteLine("After asking the first person, they tell you that they've heard of the place but they don't know anyone from there or what it looks like.");
+                Console.WriteLine("You decide to ask another person and this time they say they've never heard of the damn place...");
+                Console.WriteLine("Now you get fed up and ask one more person and they tell you that they once tried to go there but never made it.. where is this Wyoming?!");
+                Console.WriteLine("You come to the conslusion that Wyoming doesn't exist and make your way towards the worst place you know of to train your mine and body... Florida?!");
+                //later it turns out he had the map upside down and decides to attempt one more time lmao.
+            }
+            if (input == '2')
+            {
+                Console.WriteLine("You stay the night in a tavern and rest up.");
+                Console.WriteLine("However you ended up being stabbed in the middle of the night after being mugged.. ");
+                Console.WriteLine("Sucks to suck! Your fault for staying in the only free tavern in town... or the world...");
+                _gameOver = true;
             }
         }
-         //Run the game
+        void Florida()
+        {
+            char input = ' ';
+            input = GetInput("Ride the bus", "Walk", "You want to get there but you only have two options, which do you choose?");
+            if (input == '1')
+            {
+
+            }
+            if (input == '2')
+            {
+
+            }
+        }
+        //Run the game
         public void Run()
         {
             Start();
@@ -154,6 +200,7 @@ namespace HelloWorld
             RequestName();
             Explore();
             HeroicAct();
+            Wyoming();
         }
 
         //Performed once when the game ends
